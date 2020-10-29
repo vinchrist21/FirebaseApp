@@ -102,8 +102,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CardViewVi
         CardViewViewHolder(View itemView) {
             super(itemView);
 
-
-
             lbl_subject = itemView.findViewById(R.id.lbl_subject_course_adp);
             lbl_day = itemView.findViewById(R.id.lbl_day_course_adp);
             lbl_start = itemView.findViewById(R.id.lbl_start_course_adp);
@@ -112,9 +110,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CardViewVi
 
             btn_del = itemView.findViewById(R.id.btn_delete);
             btn_edit = itemView.findViewById(R.id.btn_edit);
-
-
-
+            
         }
     }
 }

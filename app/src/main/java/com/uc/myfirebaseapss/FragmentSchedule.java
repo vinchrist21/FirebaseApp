@@ -8,11 +8,72 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.uc.myfirebaseapss.adapter.EnrollCourseAdapter;
+import com.uc.myfirebaseapss.adapter.ScheduleAdapter;
+import com.uc.myfirebaseapss.model.Course;
+
+import java.util.ArrayList;
 
 public class FragmentSchedule extends Fragment {
+
+    RecyclerView rv_schedule_data;
+    DatabaseReference dbSchedule;
+    ArrayList<Course> listCourse = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_schedule, container, false);
+        View v = inflater.inflate(R.layout.fragment_schedule, container, false);
+
+        dbSchedule = FirebaseDatabase.getInstance()
+                .getReference("student")
+                .child(FirebaseAuth.getInstance()
+                        .getCurrentUser().getUid())
+                .child("course");
+
+        dbSchedule.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                listCourse.clear();
+                rv_schedule_data.setAdapter(null);
+                for(DataSnapshot childSnapshot : snapshot.getChildren()){
+                    Course course = childSnapshot.getValue(Course.class);
+                    listCourse.add(course);
+                }
+                showScheduleData(listCourse);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        rv_schedule_data = v.findViewById(R.id.rv_schedule_data);
+
+
+
+        return v;
     }
+
+    private void showScheduleData(ArrayList<Course>list){
+        rv_schedule_data.setLayoutManager(new LinearLayoutManager(FragmentSchedule.this.getActivity()));
+        ScheduleAdapter scheduleAdapter = new ScheduleAdapter(FragmentSchedule.this.getActivity());
+        scheduleAdapter.setListCourse(list);
+        rv_schedule_data.setAdapter(scheduleAdapter);
+
+
+    }
+
+
 }

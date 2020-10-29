@@ -10,6 +10,7 @@ import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.database.DataSnapshot;
@@ -79,5 +80,32 @@ public class CourseData extends AppCompatActivity {
         rv_course_data.setAdapter(courseAdapter);
 
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if(id == android.R.id.home){
+            Intent intent;
+            intent = new Intent(CourseData.this, AddCourse.class);
+            intent.putExtra("action", "add");
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(CourseData.this);
+            startActivity(intent, options.toBundle());
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent intent;
+        intent = new Intent(CourseData.this, AddCourse.class);
+        intent.putExtra("action", "add");
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 }

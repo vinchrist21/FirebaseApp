@@ -51,10 +51,8 @@ public class AddCourse extends AppCompatActivity {
     FirebaseDatabase dbLecturer = FirebaseDatabase.getInstance();
     ArrayAdapter<CharSequence> adapterend;
 
-
-    //
     List<String> names;
-    //
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -262,7 +260,7 @@ public class AddCourse extends AppCompatActivity {
                 for (DataSnapshot childSnapshot:snapshot.getChildren()) {
                     String spinnerName = childSnapshot.child("name").getValue(String.class);
                     names.add(spinnerName);
-                    Log.d("lecturer",spinnerName);
+//                    Log.d("lecturer",spinnerName);
                 }
                 ArrayAdapter<String> arrayAdapter=new ArrayAdapter<>(AddCourse.this, android.R.layout.simple_spinner_dropdown_item,names);
                 arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
