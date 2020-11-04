@@ -114,6 +114,7 @@ public class RegisterStudent extends AppCompatActivity implements TextWatcher {
             input_name.getEditText().setText(student.getName());
             input_nim.getEditText().setText(student.getNim());
             input_age.getEditText().setText(student.getAge());
+            input_address.getEditText().setText(student.getAddress());
 
             if(student.getGender().equalsIgnoreCase("male")){
                 rg_gender.check(R.id.rad_male_reg_student);
@@ -133,6 +134,7 @@ public class RegisterStudent extends AppCompatActivity implements TextWatcher {
                     params.put("name", name);
                     params.put("nim", nim);
                     params.put("gender", gender);
+                    params.put("address",address);
                     mDatabase.child("student").child(student.getUid()).updateChildren(params).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
